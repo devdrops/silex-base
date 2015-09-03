@@ -13,9 +13,7 @@ namespace Silex\Tests\Provider;
 
 use Silex\Application;
 use Silex\Provider\SwiftmailerServiceProvider;
-
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class SwiftmailerServiceProviderTest extends \PHPUnit_Framework_TestCase
 {
@@ -25,6 +23,22 @@ class SwiftmailerServiceProviderTest extends \PHPUnit_Framework_TestCase
 
         $app->register(new SwiftmailerServiceProvider());
         $app->boot();
+
+        $this->assertInstanceOf('Swift_Mailer', $app['mailer']);
+    }
+
+    public function testSwiftMailerIgnoresSpoolIfDisabled()
+    {
+        $app = new Application();
+
+        $app->register(new SwiftmailerServiceProvider());
+        $app->boot();
+
+        $app['swiftmailer.use_spool'] = false;
+
+        $app['swiftmailer.spooltransport'] = function () {
+            throw new \Exception('Should not be instantiated');
+        };
 
         $this->assertInstanceOf('Swift_Mailer', $app['mailer']);
     }
@@ -40,7 +54,7 @@ class SwiftmailerServiceProviderTest extends \PHPUnit_Framework_TestCase
             return new SpoolStub();
         });
 
-        $app->get('/', function() use ($app) {
+        $app->get('/', function () use ($app) {
             $app['mailer']->send(\Swift_Message::newInstance());
         });
 
@@ -66,7 +80,7 @@ class SwiftmailerServiceProviderTest extends \PHPUnit_Framework_TestCase
             return new SpoolStub();
         });
 
-        $app->get('/', function() use ($app) { });
+        $app->get('/', function () use ($app) { });
 
         $request = Request::create('/');
         $response = $app->handle($request);

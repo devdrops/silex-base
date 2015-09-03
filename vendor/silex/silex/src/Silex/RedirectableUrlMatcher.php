@@ -13,7 +13,6 @@ namespace Silex;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Matcher\RedirectableUrlMatcher as BaseRedirectableUrlMatcher;
-use Symfony\Component\Routing\Matcher\RedirectableUrlMatcherInterface;
 
 /**
  * Implements the RedirectableUrlMatcherInterface for Silex.
@@ -23,7 +22,7 @@ use Symfony\Component\Routing\Matcher\RedirectableUrlMatcherInterface;
 class RedirectableUrlMatcher extends BaseRedirectableUrlMatcher
 {
     /**
-     * @see RedirectableUrlMatcherInterface::match()
+     * {@inheritdoc}
      */
     public function redirect($path, $route, $scheme = null)
     {

@@ -1,6 +1,90 @@
 Changelog
 =========
 
+1.3.2 (2015-08-24)
+------------------
+
+* no changes
+
+1.3.1 (2015-08-04)
+------------------
+
+* added missing support for the Expression constraint
+* fixed the possibility to override translations for validator error messages
+* fixed sub-mounts with same name clash
+* fixed session logout handler when a firewall is stateless
+
+1.3.0 (2015-06-05)
+------------------
+
+* added a `$app['user']` to get the current user (security provider)
+* added view handlers
+* added support for the OPTIONS HTTP method
+* added caching for the Translator provider
+* deprecated `$app['exception_handler']->disable()` in favor of `unset($app['exception_handler'])`
+* made Silex compatible with Symfony 2.7 an 2.8 (and keep compatibility with Symfony 2.3, 2.5, and 2.6)
+* removed deprecated TwigCoreExtension class (register the new HttpFragmentServiceProvider instead)
+* bumped minimum version of PHP to 5.3.9
+
+1.2.5 (2015-06-04)
+------------------
+
+* no code changes (last version of the 1.2 branch)
+
+1.2.4 (2015-04-11)
+------------------
+
+* fixed the exception message when mounting a collection that doesn't return a ControllerCollection
+* fixed Symfony dependencies (Silex 1.2 is not compatible with Symfony 2.7)
+
+1.2.3 (2015-01-20)
+------------------
+
+* fixed remember me listener
+* fixed translation files loading when they do not exist
+* allowed global after middlewares to return responses like route specific ones
+
+1.2.2 (2014-09-26)
+------------------
+
+* fixed Translator locale management
+* added support for the $app argument in application middlewares (to make it consistent with route middlewares)
+* added form.types to the Form provider
+
+1.2.1 (2014-07-01)
+------------------
+
+* added support permissions in the Monolog provider
+* fixed Switfmailer spool where the event dispatcher is different from the other ones
+* fixed locale when changing it on the translator itself
+
+1.2.0 (2014-03-29)
+------------------
+
+* Allowed disabling the boot logic of MonologServiceProvider
+* Reverted "convert attributes on the request that actually exist"
+* [BC BREAK] Routes are now always added in the order of their registration (even for mounted routes)
+* Added run() on Route to be able to define the controller code
+* Deprecated TwigCoreExtension (register the new HttpFragmentServiceProvider instead)
+* Added HttpFragmentServiceProvider
+* Allowed a callback to be a method call on a service (before, after, finish, error, on Application; convert, before, after on Controller)
+
+1.1.3 (2013-XX-XX)
+------------------
+
+* Fixed translator locale management
+
+1.1.2 (2013-10-30)
+------------------
+
+* Added missing "security.hide_user_not_found" support in SecurityServiceProvider
+* Fixed event listeners that are registered after the boot via the on() method
+
+1.0.2 (2013-10-30)
+------------------
+
+* Fixed SecurityServiceProvider to use null as a fake controller so that routes can be dumped
+
 1.1.1 (2013-10-11)
 ------------------
 
@@ -28,7 +112,7 @@ Changelog
 
 * **2013-04-12**: Added support for validators as services.
 
-* **2013-04-01**: Added support for host matching with symfony 2.2:
+* **2013-04-01**: Added support for host matching with symfony 2.2::
 
       $app->match('/', function() {
           // app-specific action

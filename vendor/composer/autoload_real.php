@@ -23,12 +23,14 @@ class ComposerAutoloaderInitc3bc14f94508f5af5cdc5c0417970480
         self::$loader = $loader = new \Composer\Autoload\ClassLoader();
         spl_autoload_unregister(array('ComposerAutoloaderInitc3bc14f94508f5af5cdc5c0417970480', 'loadClassLoader'));
 
-        $vendorDir = dirname(__DIR__);
-        $baseDir = dirname($vendorDir);
-
         $map = require __DIR__ . '/autoload_namespaces.php';
         foreach ($map as $namespace => $path) {
             $loader->set($namespace, $path);
+        }
+
+        $map = require __DIR__ . '/autoload_psr4.php';
+        foreach ($map as $namespace => $path) {
+            $loader->setPsr4($namespace, $path);
         }
 
         $classMap = require __DIR__ . '/autoload_classmap.php';
@@ -40,4 +42,9 @@ class ComposerAutoloaderInitc3bc14f94508f5af5cdc5c0417970480
 
         return $loader;
     }
+}
+
+function composerRequirec3bc14f94508f5af5cdc5c0417970480($file)
+{
+    require $file;
 }

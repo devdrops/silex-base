@@ -32,7 +32,7 @@ Conventions
 ~~~~~~~~~~~
 
 You need to watch out in what order you do certain things when interacting
-with providers. Just keep to these rules:
+with providers. Just keep these rules in mind:
 
 * Overriding existing services must occur **after** the provider is
   registered.
@@ -44,8 +44,6 @@ with providers. Just keep to these rules:
 
   *Reason: Providers can set default values for parameters. Just like with
   services, the provider will overwrite existing values.*
-
-Make sure to stick to this behavior when creating your own providers.
 
 Included providers
 ~~~~~~~~~~~~~~~~~~
@@ -65,6 +63,7 @@ the ``Silex\Provider`` namespace:
 * :doc:`HttpCacheServiceProvider <providers/http_cache>`
 * :doc:`FormServiceProvider <providers/form>`
 * :doc:`SecurityServiceProvider <providers/security>`
+* :doc:`RememberMeServiceProvider <providers/remember_me>`
 * :doc:`ServiceControllerServiceProvider <providers/service_controller>`
 
 Third party providers
@@ -72,7 +71,7 @@ Third party providers
 
 Some service providers are developed by the community. Those third-party
 providers are listed on `Silex' repository wiki
-<https://github.com/fabpot/Silex/wiki/Third-Party-ServiceProviders>`_.
+<https://github.com/silexphp/Silex/wiki/Third-Party-ServiceProviders>`_.
 
 You are encouraged to share yours.
 
@@ -83,15 +82,15 @@ Providers must implement the ``Silex\ServiceProviderInterface``::
 
     interface ServiceProviderInterface
     {
-        function register(Application $app);
+        public function register(Application $app);
 
-        function boot(Application $app);
+        public function boot(Application $app);
     }
 
-This is very straight forward, just create a new class that implements the two
-methods. In the ``register()`` method, you can define services on the
-application which then may make use of other services and parameters. In the
-``boot()`` method, you can configure the application, just before it handles a
+The ``register()`` method defines services on the application which then may
+make use of other services and parameters.
+
+The ``boot()`` method configures the application, just before it handles a
 request.
 
 Here is an example of such a provider::
@@ -139,8 +138,10 @@ You can now use this provider as follows::
 In this example we are getting the ``name`` parameter from the query string,
 so the request path would have to be ``/hello?name=Fabien``.
 
-Controllers providers
----------------------
+.. _controller-providers:
+
+Controller Providers
+--------------------
 
 Loading providers
 ~~~~~~~~~~~~~~~~~
@@ -162,7 +163,7 @@ Providers must implement the ``Silex\ControllerProviderInterface``::
 
     interface ControllerProviderInterface
     {
-        function connect(Application $app);
+        public function connect(Application $app);
     }
 
 Here is an example of such a provider::
@@ -195,7 +196,7 @@ defined (like ``get``, ``post``, ``match``, ...).
 
     The ``Application`` class acts in fact as a proxy for these methods.
 
-You can now use this provider as follows::
+You can use this provider as follows::
 
     $app = new Silex\Application();
 

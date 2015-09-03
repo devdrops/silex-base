@@ -14,8 +14,6 @@ namespace Silex\Tests\Provider;
 use Silex\Application;
 use Silex\Provider\TranslationServiceProvider;
 
-use Symfony\Component\HttpFoundation\Request;
-
 /**
  * TranslationProvider test cases.
  *
@@ -33,23 +31,24 @@ class TranslationServiceProviderTest extends \PHPUnit_Framework_TestCase
         $app->register(new TranslationServiceProvider());
         $app['translator.domains'] = array(
             'messages' => array(
-                'en' => array (
+                'en' => array(
                     'key1' => 'The translation',
                     'key_only_english' => 'Foo',
                     'key2' => 'One apple|%count% apples',
                     'test' => array(
-                        'key' => 'It works'
-                    )
+                        'key' => 'It works',
+                    ),
                 ),
-                'de' => array (
+                'de' => array(
                     'key1' => 'The german translation',
                     'key2' => 'One german apple|%count% german apples',
                     'test' => array(
-                        'key' => 'It works in german'
-                    )
-                )
-            )
+                        'key' => 'It works in german',
+                    ),
+                ),
+            ),
         );
+
         return $app;
     }
 
@@ -124,5 +123,28 @@ class TranslationServiceProviderTest extends \PHPUnit_Framework_TestCase
         // fallback to german
         $result = $app['translator']->trans('key1', array(), null, 'ru');
         $this->assertEquals('The german translation', $result);
+    }
+
+    public function testChangingLocale()
+    {
+        $app = $this->getPreparedApp();
+
+        $this->assertEquals('The translation', $app['translator']->trans('key1'));
+
+        $app['locale'] = 'de';
+
+        $this->assertEquals('The german translation', $app['translator']->trans('key1'));
+    }
+
+    public function testChangingLocaleViaTranslator()
+    {
+        $app = $this->getPreparedApp();
+
+        $this->assertEquals('The translation', $app['translator']->trans('key1'));
+
+        $app['translator']->setLocale('de');
+
+        $this->assertEquals('The german translation', $app['translator']->trans('key1'));
+        $this->assertEquals('de', $app['locale']);
     }
 }

@@ -12,7 +12,7 @@
 namespace Silex;
 
 /**
- * Interface that must implement all Silex service providers.
+ * Interface that all Silex service providers must implement.
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
@@ -23,8 +23,6 @@ interface ServiceProviderInterface
      *
      * This method should only be used to configure services and parameters.
      * It should not get services.
-     *
-     * @param Application $app An Application instance
      */
     public function register(Application $app);
 
